@@ -7,9 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.List;
 

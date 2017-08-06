@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Response<T> {
 
-    @SerializedName("topalbums")
+    @SerializedName(value = "album",alternate = {"weeklyalbumchart","artist"})
     public T album;
+
+    public String message;
+    public int error;
 }

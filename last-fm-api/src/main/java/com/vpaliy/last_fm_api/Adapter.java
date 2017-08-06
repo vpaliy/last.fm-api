@@ -1,21 +1,34 @@
 package com.vpaliy.last_fm_api;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.vpaliy.last_fm_api.model.ArtistWrapper;
-import com.vpaliy.last_fm_api.model.Response;
-import com.vpaliy.last_fm_api.model.Wrapper;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
-import java.lang.reflect.Type;
+public class Adapter implements TypeAdapterFactory {
 
-public class Adapter implements JsonDeserializer<Response<? extends Wrapper>> {
+    public interface PostProcessable {
+        void postProcess();
+    }
 
-    @Override
-    public Response<? extends Wrapper> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return null;
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+        final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
+
+        return new TypeAdapter<T>() {
+            public void write(JsonWriter out, T value) throws IOException {
+                delegate.write(out, value);
+            }
+
+            public T read(JsonReader in) throws IOException {
+                T obj = delegate.read(in);
+                if (obj instanceof PostProcessable) {
+                    ((PostProcessable)obj).postProcess();
+                }
+                return obj;
+            }
+        };
     }
 }

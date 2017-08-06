@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
@@ -70,6 +71,7 @@ public class LastFmApi {
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Gson gson = new GsonBuilder()
                 .setLenient()
+                .registerTypeAdapterFactory(new Adapter())
                 .create();
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)

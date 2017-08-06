@@ -34,9 +34,16 @@ public interface LastFmService {
     Observable<ArtistWrapper> fetchTopArtistIn();
 
     @GET("?method=album.getinfo&format=json")
-    Observable<Album> fetchAlbumInfo(@Query("mbid") String id);
+    Observable<Response<Album>> fetchAlbumInfo(@Query("mbid") String id);
 
     @GET("?method=artist.gettopalbums&format=json")
     Observable<Response<AlbumWrapper>> fetchTopAlbums(@Query("artist") String artist);
+
+    //tested
+    @GET("?method=user.getweeklyalbumchart&format=json")
+    Observable<Response<AlbumWrapper>> fetchWeeklyAlbumChart(@Query("user") String user);
+
+    @GET("?method=artist.getinfo&format=json")
+    Observable<Response<Artist>> fetchArtist(@Query("artist") String artist);
 
 }

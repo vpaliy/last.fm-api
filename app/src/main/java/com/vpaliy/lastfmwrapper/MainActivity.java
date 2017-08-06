@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         LastFmService service=LastFmApi.create("fe109013cea138dbd787b4f17bff90cb")
                 .createService(this);
 
-        service.fetchTopAlbums("Cher")
+        service.fetchArtist("Imagine Dragons")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<AlbumWrapper>>() {
+                .subscribe(new Subscriber<Response<Artist>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG,"omCompleted()");
@@ -49,18 +49,14 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<AlbumWrapper> response) {
-                        Album album=response.album.album.get(0);
-                        if(album!=null){
-                            Log.d(TAG,"Name:"+album.name);
-                            Log.d(TAG,"Artist:"+album.artist.name);
-                            Log.d(TAG,"Artist:"+album.artist.url);
-                            Log.d(TAG,"Artist:"+album.artist.mbid);
-                            Log.d(TAG,"Id:"+album.id);
-                            Log.d(TAG,"Id:"+album.mbid);
-                            Log.d(TAG,"Url:"+album.url);
+                    public void onNext(Response<Artist> response) {
+                        Artist artist=response.album;
+                        if(artist!=null){
+                            Log.d(TAG,"Name:"+artist.name);
+                            Log.d(TAG,"Url:"+artist.url);
+                            Log.d(TAG,"Mbid:"+artist.mbid);
 
-                            List<Image> images=album.image;
+                            List<Image> images=artist.image;
                             if(images!=null){
                                 Log.d(TAG,Integer.toString(images.size()));
                                 for(Image image:images){
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG,"Images are null");
                             }
 
-                            Wiki wiki=album.wiki;
+                            Wiki wiki=artist.bio;
                             if(wiki!=null){
                                 Log.d(TAG,wiki.content);
                                 Log.d(TAG,wiki.published);
