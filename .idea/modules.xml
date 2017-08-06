@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LastFmWrapper.iml" filepath="$PROJECT_DIR$/LastFmWrapper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/last-fm-api/last-fm-api.iml" filepath="$PROJECT_DIR$/last-fm-api/last-fm-api.iml" />
     </modules>
   </component>
 </project>
