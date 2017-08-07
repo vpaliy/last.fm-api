@@ -1,11 +1,9 @@
 package com.vpaliy.last_fm_api.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.vpaliy.last_fm_api.Adapter;
-
 import java.util.List;
 
-public class Track implements Adapter.PostProcessable {
+public class Track {
     public String id;
     public String name;
     public String mbid;
@@ -17,17 +15,8 @@ public class Track implements Adapter.PostProcessable {
     public Album album;
     public Wrapper<Tag> toptags;
     public Wiki wiki;
-    public boolean isStreamable=true;
-
-    @SerializedName("streamable")
-    private Streamable streamable;
-
-    @Override
-    public void postProcess() {
-        if(streamable!=null){
-            isStreamable=streamable.fulltrack;
-        }
-    }
+    public Streamable streamable;
+    public List<Image> image;
 
     @SuppressWarnings("WeakerAccess")
     public class Wrapper<T> {
@@ -42,5 +31,4 @@ public class Track implements Adapter.PostProcessable {
         @SerializedName("fulltrack")
         private boolean fulltrack;
     }
-
 }
