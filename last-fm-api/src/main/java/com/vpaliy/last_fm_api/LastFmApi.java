@@ -4,11 +4,8 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
-
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
-import okhttp3.Credentials;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
