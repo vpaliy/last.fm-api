@@ -24,7 +24,6 @@ android {
 
 dependencies {
     compile libs.RxJava
-    compile libs.guava
     compile libs.retrofit
     compile libs.retrofitAdapter
     compile libs.retrofitConverter
