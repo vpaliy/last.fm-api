@@ -9,9 +9,7 @@ import com.vpaliy.last_fm_api.model.Artist;
 import com.vpaliy.last_fm_api.model.Image;
 import com.vpaliy.last_fm_api.model.Response;
 import com.vpaliy.last_fm_api.model.Tag;
-
 import java.util.List;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
