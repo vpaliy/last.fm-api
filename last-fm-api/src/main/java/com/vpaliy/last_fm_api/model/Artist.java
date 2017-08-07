@@ -22,23 +22,26 @@ public class Artist implements Adapter.PostProcessable{
     public Wiki bio;
     public long listeners;
     public long plays;
-    public int playcount;
+    public long playcount;
+    public int tagcount;
 
     @SerializedName("stats")
     private Stats stats;
 
-
     private static class Stats{
         public long listeners;
-        public long plays;
+        public long playcount;
     }
 
     @Override
     public void postProcess() {
         if(stats!=null){
             listeners=stats.listeners;
-            plays=stats.plays;
+            playcount=stats.playcount;
             stats=null;
+        }
+        if(result(tags)!=null){
+            tagcount=result(tags).size();
         }
     }
 
@@ -46,5 +49,18 @@ public class Artist implements Adapter.PostProcessable{
     public class Wrapper<T> {
         @SerializedName(value = "artist",alternate = "tag")
         public List<T> result;
+    }
+
+    public List<Tag> tags(){
+        return result(tags);
+    }
+
+    public List<Artist> similar(){
+        return result(similar);
+    }
+
+    private <T> List<T> result(Wrapper<T> wrapper){
+        if(wrapper==null) return null;
+        return wrapper.result;
     }
 }
