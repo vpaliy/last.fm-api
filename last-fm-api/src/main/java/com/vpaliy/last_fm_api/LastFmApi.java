@@ -17,7 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LastFmApi {
 
-
     private static final String BASE_URL="http://ws.audioscrobbler.com/2.0/";
     private static final String API_QUERY = "api_key";
     private static final String API_KEY=null;
