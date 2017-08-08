@@ -1,7 +1,7 @@
 package com.vpaliy.last_fm_api;
 
 @SuppressWarnings({"UnusedDeclaration"})
-public interface Endpoints {
+interface Endpoints {
 
     String ALBUM_INFO="?method=album.getInfo&format=json";
     String ALBUM_TAGS="?method=album.gettags&format=json";
