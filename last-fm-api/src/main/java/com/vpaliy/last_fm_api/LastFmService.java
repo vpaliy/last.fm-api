@@ -4,13 +4,16 @@ import com.vpaliy.last_fm_api.model.Album;
 import com.vpaliy.last_fm_api.model.AlbumPage;
 import com.vpaliy.last_fm_api.model.Artist;
 import com.vpaliy.last_fm_api.model.ArtistPage;
+import com.vpaliy.last_fm_api.model.Chart;
 import com.vpaliy.last_fm_api.model.Response;
+import com.vpaliy.last_fm_api.model.Tag;
 import com.vpaliy.last_fm_api.model.TagPage;
 import com.vpaliy.last_fm_api.model.TrackPage;
 import java.util.Map;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.QueryName;
 import rx.Observable;
 
 public interface LastFmService {
@@ -144,5 +147,42 @@ public interface LastFmService {
     @GET(Endpoints.GEO_TOP_TRACKS)
     Observable<Response<TrackPage>> fetchGeoTopTracks(@Query("country") String country,
                                                       @QueryMap Map<String,Object> options);
+    @GET(Endpoints.LIBRARY_ARTISTS)
+    Observable<Response<ArtistPage>> fetchLibraryArtists(@Query("user") String user);
 
+    @GET(Endpoints.LIBRARY_ARTISTS)
+    Observable<Response<ArtistPage>> fetchLibraryArtists(@Query("user") String user,
+                                                         @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.TAG_INFO)
+    Observable<Response<Tag>> fetchTagInfo(@Query("tag") String tag);
+
+    @GET(Endpoints.TAG_INFO)
+    Observable<Response<Tag>> fetchTagInfo(@Query("tag") String tag,
+                                          @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.TAG_SIMILAR)
+    Observable<Response<TagPage>> fetchSimilarTags(@Query("tag") String tag);
+
+    @GET(Endpoints.TAG_TOP_ALBUMS)
+    Observable<Response<AlbumPage>> fetchTagTopAlbums(@Query("tag") String tag);
+
+    @GET(Endpoints.TAG_TOP_ALBUMS)
+    Observable<Response<AlbumPage>> fetchTagTopAlbums(@Query("tag") String tag,
+                                                      @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TAG_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchTagTopArtists(@Query("tag") String tag,
+                                                        @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TAG_TOP_TAGS)
+    Observable<Response<TagPage>> fetchTopTags();
+
+    @GET(Endpoints.TAG_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchTagTopTracks(@Query("tag") String tag);
+
+    @GET(Endpoints.TAG_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchTagTopTracks(@Query("tag") String tag,
+                                                      @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.TAG_WEEKLY_CHART)
+    Observable<Response<Chart>> fetchTagWeeklyChart(@Query("tag") String tag);
 }
