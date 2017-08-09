@@ -8,14 +8,19 @@ import com.vpaliy.last_fm_api.model.Chart;
 import com.vpaliy.last_fm_api.model.Response;
 import com.vpaliy.last_fm_api.model.Tag;
 import com.vpaliy.last_fm_api.model.TagPage;
+import com.vpaliy.last_fm_api.model.TaggingPage;
+import com.vpaliy.last_fm_api.model.Track;
 import com.vpaliy.last_fm_api.model.TrackPage;
+import com.vpaliy.last_fm_api.model.User;
+import com.vpaliy.last_fm_api.model.UserPage;
+
 import java.util.Map;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import retrofit2.http.QueryName;
 import rx.Observable;
 
+@SuppressWarnings("unused")
 public interface LastFmService {
 
     @GET(Endpoints.ALBUM_INFO)
@@ -182,7 +187,96 @@ public interface LastFmService {
     @GET(Endpoints.TAG_TOP_TRACKS)
     Observable<Response<TrackPage>> fetchTagTopTracks(@Query("tag") String tag,
                                                       @QueryMap Map<String,Object> options);
-
     @GET(Endpoints.TAG_WEEKLY_CHART)
     Observable<Response<Chart>> fetchTagWeeklyChart(@Query("tag") String tag);
+
+    @GET(Endpoints.TRACK_INFO)
+    Observable<Response<Track>> fetchTrackInfo(@Query("mbid") String mbid);
+
+    @GET(Endpoints.TRACK_INFO)
+    Observable<Response<Track>> fetchTrackInfo(@Query("mbid") String mbid,
+                                               @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.TRACK_INFO)
+    Observable<Response<Track>> fetchTrackInfo(@Query("track") String track,
+                                               @Query("artist") String artist);
+    @GET(Endpoints.TRACK_INFO)
+    Observable<Response<Track>> fetchTrackInfo(@Query("track") String track,
+                                               @Query("artist") String artist,
+                                               @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_SIMILAR)
+    Observable<Response<TrackPage>> fetchTrackSimilar(@Query("track") String track,
+                                                      @Query("artist") String artist);
+    @GET(Endpoints.TRACK_SIMILAR)
+    Observable<Response<TrackPage>> fetchTrackSimilar(@Query("track") String track,
+                                                      @Query("artist") String artist,
+                                                      @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_SIMILAR)
+    Observable<Response<TrackPage>> fetchTrackSimilar(@Query("mbid") String mbid,
+                                                      @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_SIMILAR)
+    Observable<Response<TrackPage>> fetchTrackSimilar(@Query("mbid") String mbid);
+
+    @GET(Endpoints.TRACK_TAGS)
+    Observable<Response<TagPage>> fetchTrackTags(@Query("mbid") String mbid);
+
+    @GET(Endpoints.TRACK_TAGS)
+    Observable<Response<TagPage>> fetchTrackTags(@Query("mbid") String mbid,
+                                                 @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_TAGS)
+    Observable<Response<TagPage>> fetchTrackTags(@Query("track") String track,
+                                                 @Query("artist") String artist,
+                                                 @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_TAGS)
+    Observable<Response<TagPage>> fetchTrackTags(@Query("track") String track,
+                                                 @Query("artist") String artist);
+
+    @GET(Endpoints.TRACK_TOP_TAGS)
+    Observable<Response<TagPage>> fetchTrackTopTags(@Query("mbid") String mbid);
+
+    @GET(Endpoints.TRACK_TOP_TAGS)
+    Observable<Response<TagPage>> fetchTrackTopTags(@Query("mbid") String mbid,
+                                                 @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_TOP_TAGS)
+    Observable<Response<TagPage>> fetchTrackTopTags(@Query("track") String track,
+                                                 @Query("artist") String artist,
+                                                 @QueryMap Map<String,Object> options);
+    @GET(Endpoints.TRACK_TOP_TAGS)
+    Observable<Response<TagPage>> fetchTrackTopTags(@Query("track") String track,
+                                                    @Query("artist") String artist);
+
+    @GET(Endpoints.USER_INFO)
+    Observable<Response<User>> fetchUserInfo(@Query("user") String user);
+
+    @GET(Endpoints.USER_ARTIST_TRACKS)
+    Observable<Response<TrackPage>> fetchUserArtistTracks(@Query("user") String user,
+                                                          @Query("artist") String artist);
+    @GET(Endpoints.USER_ARTIST_TRACKS)
+    Observable<Response<TrackPage>> fetchUserArtistTracks(@Query("user") String user,
+                                                          @Query("artist") String artist,
+                                                          @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_FRIENDS)
+    Observable<Response<UserPage>> fetchUserFriends(@Query("user") String user);
+
+    @GET(Endpoints.USER_FRIENDS)
+    Observable<Response<UserPage>> fetchUserFriends(@Query("user") String user,
+                                                    @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.USER_LOVED_TRACKS)
+    Observable<Response<TrackPage>> fetchUserLovedTracks(@Query("user") String name);
+
+    @GET(Endpoints.USER_LOVED_TRACKS)
+    Observable<Response<TrackPage>> fetchUserLovedTracks(@Query("user") String name,
+                                                         @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_PERSONAL_TAGS)
+    Observable<Response<TaggingPage>> fetchUserPersonalTags(@Query("user") String user,
+                                                        @Query("tag") String tag,
+                                                        @Query("taggingtype") String taggingType);
+
+    @GET(Endpoints.USER_PERSONAL_TAGS)
+    Observable<Response<TaggingPage>> fetchUserPersonalTags(@Query("user") String user,
+                                                            @Query("tag") String tag,
+                                                            @Query("taggingtype") String taggingType,
+                                                            @QueryMap Map<String,Object> options);
+
 }
