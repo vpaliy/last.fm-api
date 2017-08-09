@@ -19,7 +19,6 @@ public class LastFmApi {
 
     private static final String BASE_URL="http://ws.audioscrobbler.com/2.0/";
     private static final String API_QUERY = "api_key";
-    private static final String API_KEY=null;
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
     private static final int CONNECT_TIMEOUT = 15;
@@ -27,10 +26,6 @@ public class LastFmApi {
     private static final int READ_TIMEOUT = 60;
 
     private final String apiKey;
-    private String userName;
-    private String password;
-    private String sessionKey;
-    private String apiSign;
 
     public LastFmApi(String apiKey){
         this.apiKey=apiKey;
