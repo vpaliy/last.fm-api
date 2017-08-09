@@ -278,5 +278,55 @@ public interface LastFmService {
                                                             @Query("tag") String tag,
                                                             @Query("taggingtype") String taggingType,
                                                             @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_RECENT_TRACKS)
+    Observable<Response<TrackPage>> fetchUserRecentTracks(@Query("user") String user);
 
+    @GET(Endpoints.USER_RECENT_TRACKS)
+    Observable<Response<TrackPage>> fetchUserRecentTracks(@Query("user") String user,
+                                                          @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_TOP_ALBUMS)
+    Observable<Response<AlbumPage>> fetchUserTopAlbums(@Query("user") String user);
+
+    @GET(Endpoints.USER_TOP_ALBUMS)
+    Observable<Response<AlbumPage>> fetchUserTopAlbums(@Query("user") String user,
+                                                       @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchUserTopArtists(@Query("user") String user);
+
+    @GET(Endpoints.USER_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchUserTopArtists(@Query("user") String user,
+                                                       @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_TOP_TAGS)
+    Observable<Response<TagPage>> fetchUserTopTags(@Query("user") String user);
+
+    @GET(Endpoints.USER_TOP_TAGS)
+    Observable<Response<TagPage>> fetchUserTopTags(@Query("user") String user,
+                                                   @Query("limit") int limit);
+    @GET(Endpoints.USER_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchUserTopTracks(@Query("user") String user);
+
+    @GET(Endpoints.USER_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchUserTopTracks(@Query("user") String user,
+                                                         @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_WEEKLY_ALBUM)
+    Observable<Response<AlbumPage>> fetchUserWeeklyAlbumChart(@Query("user") String user);
+
+    @GET(Endpoints.USER_WEEKLY_ALBUM)
+    Observable<Response<AlbumPage>> fetchUserWeeklyAlbumChart(@Query("user") String user,
+                                                              @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.USER_WEEKLY_ARTIST)
+    Observable<Response<ArtistPage>> fetchUserWeeklyArtistChart(@Query("user") String user);
+
+    @GET(Endpoints.USER_WEEKLY_ARTIST)
+    Observable<Response<AlbumPage>> fetchUserWeeklyArtistChart(@Query("user") String user,
+                                                              @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_WEEKLY_TRACK)
+    Observable<Response<TrackPage>> fetchUserWeeklyTrackChart(@Query("user") String user);
+
+    @GET(Endpoints.USER_WEEKLY_TRACK)
+    Observable<Response<TrackPage>> fetchUserWeeklyTrackChart(@Query("user") String user,
+                                                              @QueryMap Map<String,Object> options);
+    @GET(Endpoints.USER_WEEKLY_CHART)
+    Observable<Response<Chart>> fetchUserWeeklyChart(@Query("user") String user);
 }
