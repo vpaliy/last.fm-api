@@ -1,9 +1,7 @@
 package com.vpaliy.last_fm_api.model;
 
-
 import com.google.gson.annotations.SerializedName;
 import com.vpaliy.last_fm_api.Adapter;
-
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
@@ -13,6 +11,10 @@ public class TagPage implements Adapter.PostProcessable {
 
     public String artist;
     public String album;
+    public int page;
+    public int perPage;
+    public int totalPages;
+    public int total;
 
     @SerializedName("@attr")
     private PageInfo attr;
@@ -20,6 +22,10 @@ public class TagPage implements Adapter.PostProcessable {
     private class PageInfo {
         public String artist;
         public String album;
+        public int page;
+        public int perPage;
+        public int totalPages;
+        public int total;
     }
 
     @Override
@@ -27,6 +33,10 @@ public class TagPage implements Adapter.PostProcessable {
         if(attr!=null){
             this.artist=attr.artist;
             this.album=attr.album;
+            this.page=attr.page;
+            this.perPage=attr.perPage;
+            this.totalPages=attr.totalPages;
+            this.total=attr.total;
         }
     }
 }

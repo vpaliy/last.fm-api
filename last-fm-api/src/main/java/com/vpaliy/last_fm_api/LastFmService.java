@@ -22,14 +22,19 @@ public interface LastFmService {
     Observable<Response<Album>> fetchAlbumInfo(@Query("mbid") String mbid);
 
     @GET(Endpoints.ALBUM_INFO)
-    Observable<Response<Album>> fetchAlbumInfo(@QueryMap Map<String,Object> options);
-
+    Observable<Response<Album>> fetchAlbumInfo(@Query("mbid") String mbid,
+                                               @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ALBUM_INFO)
+    Observable<Response<Album>> fetchAlbumInfo(@Query("artist") String artist,
+                                               @Query("album") String album,
+                                               @QueryMap Map<String,Object> options);
     @GET(Endpoints.ALBUM_TAGS)
     Observable<Response<TagPage>> fetchAlbumTags(@Query("artist") String artist,
                                                  @Query("album") String album);
     @GET(Endpoints.ALBUM_TAGS)
-    Observable<Response<TagPage>> fetchAlbumTags(@QueryMap Map<String,Object> options);
-
+    Observable<Response<TagPage>> fetchAlbumTags(@Query("artist") String artist,
+                                                 @Query("album") String album,
+                                                 @QueryMap Map<String,Object> options);
     @GET(Endpoints.ARTIST_INFO)
     Observable<Response<Artist>> fetchArtist(@Query("artist") String artist);
 
@@ -37,7 +42,11 @@ public interface LastFmService {
     Observable<Response<Artist>> fetchArtistById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_INFO)
-    Observable<Response<Artist>> fetchArtist(@QueryMap Map<String,Object> options);
+    Observable<Response<Artist>> fetchArtist(@Query("artist") String artist,
+                                             @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ARTIST_INFO)
+    Observable<Response<Artist>> fetchArtistById(@Query("mbid") String mbid,
+                                                 @QueryMap Map<String,Object> options);
 
     @GET(Endpoints.ARTIST_SIMILAR)
     Observable<Response<ArtistPage>> fetchSimilarArtists(@Query("artist") String artist);
@@ -46,7 +55,11 @@ public interface LastFmService {
     Observable<Response<ArtistPage>> fetchSimilarArtistsById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_SIMILAR)
-    Observable<Response<ArtistPage>> fetchSimilarArtists(@QueryMap Map<String,Object> options);
+    Observable<Response<ArtistPage>> fetchSimilarArtists(@Query("artist") String artist,
+                                                         @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ARTIST_SIMILAR)
+    Observable<Response<ArtistPage>> fetchSimilarArtistsById(@Query("mbid") String mbid,
+                                                             @QueryMap Map<String,Object> options);
 
     @GET(Endpoints.ARTIST_TAGS)
     Observable<Response<TagPage>> fetchArtistTags(@Query("artist") String artist);
@@ -55,7 +68,11 @@ public interface LastFmService {
     Observable<Response<TagPage>> fetchArtistTagsById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_TAGS)
-    Observable<Response<TagPage>> fetchArtistTags(@QueryMap Map<String,Object> options);
+    Observable<Response<TagPage>> fetchArtistTags(@Query("artist") String artist,
+                                                  @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ARTIST_TAGS)
+    Observable<Response<TagPage>> fetchArtistTagsById(@Query("mbid") String mbid,
+                                                      @QueryMap Map<String,Object> options);
 
     @GET(Endpoints.ARTIST_TOP_ALBUMS)
     Observable<Response<AlbumPage>> fetchArtistTopAlbums(@Query("artist") String artist);
@@ -64,7 +81,11 @@ public interface LastFmService {
     Observable<Response<AlbumPage>> fetchArtistTopAlbumsById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_TOP_ALBUMS)
-    Observable<Response<AlbumPage>> fetchArtistTopAlbums(@QueryMap Map<String, Object> options);
+    Observable<Response<AlbumPage>> fetchArtistTopAlbums(@Query("artist") String artist,
+                                                         @QueryMap Map<String, Object> options);
+    @GET(Endpoints.ARTIST_TOP_ALBUMS)
+    Observable<Response<AlbumPage>> fetchArtistTopAlbumsById(@Query("mbid") String mbid,
+                                                             @QueryMap Map<String, Object> options);
 
     @GET(Endpoints.ARTIST_TOP_TAGS)
     Observable<Response<TagPage>> fetchArtistTopTags(@Query("artist") String artist);
@@ -73,7 +94,11 @@ public interface LastFmService {
     Observable<Response<TagPage>> fetchArtistsTopTagsById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_TOP_TAGS)
-    Observable<Response<TagPage>> fetchArtistsTopTags(@QueryMap Map<String,Object> options);
+    Observable<Response<TagPage>> fetchArtistsTopTags(@Query("artist") String artist,
+                                                      @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ARTIST_TOP_TAGS)
+    Observable<Response<TagPage>> fetchArtistsTopTagsById(@Query("mbid") String mbid,
+                                                          @QueryMap Map<String,Object> options);
 
     @GET(Endpoints.ARTIST_TOP_TRACKS)
     Observable<Response<TrackPage>> fetchArtistTopTracks(@Query("artist") String artist);
@@ -82,5 +107,42 @@ public interface LastFmService {
     Observable<Response<TrackPage>> fetchArtistTopTracksById(@Query("mbid") String mbid);
 
     @GET(Endpoints.ARTIST_TOP_TRACKS)
-    Observable<Response<TrackPage>> fetchArtistTopTracks(@QueryMap Map<String,Object> options);
+    Observable<Response<TrackPage>> fetchArtistTopTracks(@Query("artist") String artist,
+                                                         @QueryMap Map<String,Object> options);
+    @GET(Endpoints.ARTIST_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchArtistTopTracksById(@Query("mbid") String mbid,
+                                                             @QueryMap Map<String,Object> options);
+
+    @GET(Endpoints.CHART_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchChartTopArtists(@Query("page") int page,
+                                                          @Query("limit") int limit);
+
+    @GET(Endpoints.CHART_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchChartTopArtists(@Query("page") int page);
+
+    @GET(Endpoints.CHART_TOP_TAGS)
+    Observable<Response<TagPage>> fetchChartTopTags(@Query("page") int page,
+                                                    @Query("limit") int limit);
+    @GET(Endpoints.CHART_TOP_TAGS)
+    Observable<Response<TagPage>> fetchChartTopTags(@Query("page") int page);
+
+    @GET(Endpoints.CHART_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchChartTopTracks(@Query("page") int page,
+                                                        @Query("limit") int limit);
+    @GET(Endpoints.CHART_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchChartTopTracks(@Query("page") int page);
+
+    @GET(Endpoints.GEO_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchGeoTopArtists(@Query("country") String country);
+
+    @GET(Endpoints.GEO_TOP_ARTISTS)
+    Observable<Response<ArtistPage>> fetchGeoTopArtists(@Query("country") String country,
+                                                        @QueryMap Map<String,Object> options);
+    @GET(Endpoints.GEO_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchGeoTopTracks(@Query("country") String country);
+
+    @GET(Endpoints.GEO_TOP_TRACKS)
+    Observable<Response<TrackPage>> fetchGeoTopTracks(@Query("country") String country,
+                                                      @QueryMap Map<String,Object> options);
+
 }
