@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LastFmApi {
+public class LastFm {
 
     private static final String BASE_URL="http://ws.audioscrobbler.com/2.0/";
     private static final String API_QUERY = "api_key";
@@ -27,7 +27,7 @@ public class LastFmApi {
 
     private final String apiKey;
 
-    public LastFmApi(String apiKey){
+    public LastFm(String apiKey){
         this.apiKey=apiKey;
     }
 
@@ -78,8 +78,8 @@ public class LastFmApi {
         return retrofit.create(LastFmService.class);
     }
 
-    public static LastFmApi create(String apiKey){
-        return new LastFmApi(apiKey);
+    public static LastFm create(String apiKey){
+        return new LastFm(apiKey);
     }
 
 

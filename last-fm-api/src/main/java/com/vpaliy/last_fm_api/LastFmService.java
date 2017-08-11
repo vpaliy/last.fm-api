@@ -68,7 +68,6 @@ public interface LastFmService {
     @GET(Endpoints.ARTIST_SIMILAR)
     Observable<Response<ArtistPage>> fetchSimilarArtistsById(@Query("mbid") String mbid,
                                                              @QueryMap Map<String,Object> options);
-
     @GET(Endpoints.ARTIST_TAGS)
     Observable<Response<TagPage>> fetchArtistTags(@Query("artist") String artist);
 
@@ -94,7 +93,6 @@ public interface LastFmService {
     @GET(Endpoints.ARTIST_TOP_ALBUMS)
     Observable<Response<AlbumPage>> fetchArtistTopAlbumsById(@Query("mbid") String mbid,
                                                              @QueryMap Map<String, Object> options);
-
     @GET(Endpoints.ARTIST_TOP_TAGS)
     Observable<Response<TagPage>> fetchArtistTopTags(@Query("artist") String artist);
 
@@ -120,11 +118,9 @@ public interface LastFmService {
     @GET(Endpoints.ARTIST_TOP_TRACKS)
     Observable<Response<TrackPage>> fetchArtistTopTracksById(@Query("mbid") String mbid,
                                                              @QueryMap Map<String,Object> options);
-
     @GET(Endpoints.CHART_TOP_ARTISTS)
     Observable<Response<ArtistPage>> fetchChartTopArtists(@Query("page") int page,
                                                           @Query("limit") int limit);
-
     @GET(Endpoints.CHART_TOP_ARTISTS)
     Observable<Response<ArtistPage>> fetchChartTopArtists(@Query("page") int page);
 
@@ -158,14 +154,12 @@ public interface LastFmService {
     @GET(Endpoints.LIBRARY_ARTISTS)
     Observable<Response<ArtistPage>> fetchLibraryArtists(@Query("user") String user,
                                                          @QueryMap Map<String,Object> options);
-
     @GET(Endpoints.TAG_INFO)
     Observable<Response<Tag>> fetchTagInfo(@Query("tag") String tag);
 
     @GET(Endpoints.TAG_INFO)
     Observable<Response<Tag>> fetchTagInfo(@Query("tag") String tag,
                                           @QueryMap Map<String,Object> options);
-
     @GET(Endpoints.TAG_SIMILAR)
     Observable<Response<TagPage>> fetchSimilarTags(@Query("tag") String tag);
 
