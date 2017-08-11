@@ -1,61 +1,119 @@
 package com.vpaliy.last_fm_api.auth;
 
-import android.text.TextUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import android.content.Context;
+import com.vpaliy.last_fm_api.ServiceProvider;
 import com.vpaliy.last_fm_api.model.Session;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.vpaliy.last_fm_api.model.Status;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import rx.Observable;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class LastFmUpdate {
+public class LastFmUpdate extends ServiceProvider<UpdateService> {
+
+    private static final String BASE_URL="https://ws.audioscrobbler.com/2.0/";
 
     private Session session;
+    private Context context;
 
-    public LastFmUpdate(Session session){
-        if(session==null|| TextUtils.isEmpty(session.apiKey) ||
-                TextUtils.isEmpty(session.apiSecret) || TextUtils.isEmpty(session.key)){
-            throw new IllegalArgumentException("Required arguments are null");
-        }
+    public LastFmUpdate(Context context, Session session){
+        super(session.apiKey,BASE_URL);
         this.session=session;
     }
 
-
-    private Interceptor buildInterceptor(){
-        return (chain -> {
-            Request originalRequest = chain.request();
-            HttpUrl originalHttpUrl = originalRequest.url();
-            HttpUrl newHttpUrl = originalHttpUrl.newBuilder()
-                    .build();
-            Request newRequest = originalRequest.newBuilder()
-                    .url(newHttpUrl).build();
-            return chain.proceed(newRequest);});
+    public Observable<Status> addTagsToAlbum(String artist,String album, String...tags){
+        Map<String,String> options=postOptions("album.addTags");
+        options.put("artist","artist");
+        options.put("album",album);
+        options.put("tags",convert(tags));
+        return createService(context)
+                .addTagsToAlbum(options);
     }
 
-    private Retrofit buildRetrofit(){
-        OkHttpClient okHttpClient=new OkHttpClient.Builder()
-                .addInterceptor(buildInterceptor())
-                .build();
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        return new Retrofit.Builder()
-                .baseUrl("https://ws.audioscrobbler.com/2.0/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
+    public Observable<Status> removeTagFromAlbum(String artist,String album, String tag){
+        Map<String,String> options=postOptions("album.removeTag");
+        options.put("artist",artist);
+        options.put("album",album);
+        options.put("tag",tag);
+        return createService(context)
+                .removeTagFromAlbum(options);
+    }
+
+    private Map<String,String> postOptions(String method){
+        Map<String,String> options=new HashMap<>();
+        options.put("method",method);
+        options.put("format","json");
+        options.put("sk",session.key);
+        return options;
+    }
+    @SuppressWarnings("all")
+    private <T> String convert(T...strings){
+        return Arrays.toString(strings)
+                .replaceAll("[\\[.\\].\\s+]", "");
+    }
+
+    public Observable<Status> addTagsToArtist(String artist, String...tags){
+        Map<String,String> options=postOptions("artist.addTags");
+        options.put("artist",artist);
+        options.put("tags",convert(tags));
+        return createService(context)
+                .addTagsToArtist(options);
+    }
+
+    public Observable<Status> removeTagFromArtist(String artist, String tag){
+        Map<String,String> options=postOptions("artist.removeTag");
+        options.put("artist",artist);
+        options.put("tag",tag);
+        return createService(context)
+                .removeTagFromArtist(options);
     }
 
 
-    public static LastFmUpdate create(Session session){
-        return new LastFmUpdate(session);
+    public Observable<Status> addTagsToTrack(String artist,String track, String...tags){
+        Map<String,String> options=postOptions("track.addTags");
+        options.put("artist",artist);
+        options.put("track",track);
+        options.put("tags",convert(tags));
+        return createService(context)
+                .addTagsToTrack(options);
+    }
+
+    public Observable<Status> removeTagFromTrack(String artist, String track, String tag){
+        Map<String,String> options=postOptions("track.removeTag");
+        options.put("artist",artist);
+        options.put("track",track);
+        options.put("tag",tag);
+        return createService(context)
+                .removeTagFromTrack(options);
+    }
+
+    public Observable<Status> loveTrack(String artist, String track){
+        Map<String,String> options=postOptions("track.love");
+        options.put("artist",artist);
+        options.put("track",track);
+        return createService(context)
+                .loveTrack(options);
+    }
+
+    public Observable<Status> unloveTrack(String artist, String track){
+        Map<String,String> options=postOptions("track.unlove");
+        options.put("artist",artist);
+        options.put("track",track);
+        return createService(context)
+                .unloveTrack(options);
+    }
+
+    public Observable<Status> updateNowPlayingTrack(String artist, String track){
+        return null;
+    }
+
+    @Override
+    protected Class<UpdateService> clazz() {
+        return UpdateService.class;
+    }
+
+    public static LastFmUpdate create(Context context,Session session){
+        return new LastFmUpdate(context,session);
     }
 }
