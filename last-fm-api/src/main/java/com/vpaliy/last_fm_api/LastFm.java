@@ -1,7 +1,6 @@
 package com.vpaliy.last_fm_api;
 
 import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
@@ -31,35 +30,29 @@ public class LastFm {
         this.apiKey=apiKey;
     }
 
-    Interceptor provideOkHttpInterceptor(){
+    private Interceptor buildOkHttpInterceptor(){
         return (chain -> {
             Request originalRequest = chain.request();
             HttpUrl originalHttpUrl = originalRequest.url();
             HttpUrl newHttpUrl = originalHttpUrl.newBuilder()
                     .setQueryParameter(API_QUERY, apiKey)
                     .build();
-            Request newRequest = addHeader(originalRequest.newBuilder()
-                    .url(newHttpUrl)).build();
-
+            Request newRequest = originalRequest.newBuilder()
+                    .url(newHttpUrl).build();
             return chain.proceed(newRequest);});
     }
 
-    private Request.Builder addHeader(Request.Builder builder){
-        return builder;
-    }
-
-    OkHttpClient provideOkHttpClient(Context context, Interceptor interceptor) {
+    private OkHttpClient provideOkHttpClient(Context context, Interceptor interceptor) {
         Builder builder = new Builder()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .cache(new Cache(context.getCacheDir(), CACHE_SIZE));
-
         return builder.build();
     }
 
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    private Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapterFactory(new Adapter())
@@ -73,7 +66,7 @@ public class LastFm {
     }
 
     public LastFmService createService(Context context){
-        OkHttpClient okHttpClient=provideOkHttpClient(context,provideOkHttpInterceptor());
+        OkHttpClient okHttpClient=provideOkHttpClient(context, buildOkHttpInterceptor());
         Retrofit retrofit=provideRetrofit(okHttpClient);
         return retrofit.create(LastFmService.class);
     }
@@ -81,6 +74,4 @@ public class LastFm {
     public static LastFm create(String apiKey){
         return new LastFm(apiKey);
     }
-
-
 }

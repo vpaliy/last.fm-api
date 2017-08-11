@@ -1,11 +1,8 @@
 package com.vpaliy.last_fm_api.auth;
 
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.vpaliy.last_fm_api.model.Response;
 import com.vpaliy.last_fm_api.model.Session;
 import java.io.UnsupportedEncodingException;
@@ -75,7 +72,16 @@ public class LastFmAuth {
         options.put("username",username);
         options.put("password",password);
         return buildRetrofit().create(AuthService.class)
-                .auth(options);
+                .auth(options)
+                .map(response -> {
+                    if(response!=null){
+                        if(response.result!=null){
+                            response.result.apiKey=apiKey;
+                            response.result.apiSecret=apiSecret;
+                        }
+                    }
+                    return response;
+                });
     }
 
     private String generateSignature(String username, String password){
