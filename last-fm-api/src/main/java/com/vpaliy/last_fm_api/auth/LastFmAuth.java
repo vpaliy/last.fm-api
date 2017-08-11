@@ -38,6 +38,7 @@ public class LastFmAuth {
             Request originalRequest = chain.request();
             HttpUrl originalHttpUrl = originalRequest.url();
             HttpUrl newHttpUrl = originalHttpUrl.newBuilder()
+                    .addEncodedQueryParameter("api_key",apiKey)
                     .build();
             Request newRequest = originalRequest.newBuilder()
                     .url(newHttpUrl).build();
@@ -67,7 +68,6 @@ public class LastFmAuth {
         Map<String,String> options=new HashMap<>();
         options.put("method","auth.getMobileSession");
         options.put("format","json");
-        options.put("api_key",apiKey);
         options.put("api_sig",signature);
         options.put("username",username);
         options.put("password",password);
