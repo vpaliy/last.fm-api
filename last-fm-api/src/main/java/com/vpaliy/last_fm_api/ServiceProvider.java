@@ -26,8 +26,9 @@ public abstract class ServiceProvider<T> {
     private static final int READ_TIMEOUT = 60;
     private static final String API_QUERY = "api_key";
 
-    private String apiKey;
+    protected String apiKey;
     private String baseUrl;
+
 
     public ServiceProvider(String apiKey){
         this(apiKey,BASE_URL);
@@ -63,7 +64,6 @@ public abstract class ServiceProvider<T> {
         return builder.build();
     }
 
-
     private Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -79,7 +79,7 @@ public abstract class ServiceProvider<T> {
 
     protected abstract Class<T> clazz();
 
-    public T createService(Context context){
+    protected T createService(Context context){
         return provideRetrofit(provideOkHttpClient(context,buildOkHttpInterceptor()))
                 .create(clazz());
     }

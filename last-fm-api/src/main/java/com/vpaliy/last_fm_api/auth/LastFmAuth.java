@@ -1,8 +1,8 @@
 package com.vpaliy.last_fm_api.auth;
 
+import android.content.Context;
 import android.text.TextUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.vpaliy.last_fm_api.ServiceProvider;
 import com.vpaliy.last_fm_api.model.Response;
 import com.vpaliy.last_fm_api.model.Session;
 import java.io.UnsupportedEncodingException;
@@ -10,57 +10,25 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
-public class LastFmAuth {
+public class LastFmAuth extends ServiceProvider<AuthService> {
 
-    private String apiKey;
+    private static final String BASE_URL="https://ws.audioscrobbler.com/2.0/";
     private String apiSecret;
 
     public LastFmAuth(String apiKey, String apiSecret){
-        if(TextUtils.isEmpty(apiKey)||TextUtils.isEmpty(apiSecret)){
-            throw new IllegalArgumentException("ApiKey or ApiSecret is null");
-        }
-        this.apiKey=apiKey;
+        super(apiKey,BASE_URL);
         this.apiSecret=apiSecret;
     }
 
-    private Interceptor buildInterceptor(){
-        return (chain -> {
-            Request originalRequest = chain.request();
-            HttpUrl originalHttpUrl = originalRequest.url();
-            HttpUrl newHttpUrl = originalHttpUrl.newBuilder()
-                    .addEncodedQueryParameter("api_key",apiKey)
-                    .build();
-            Request newRequest = originalRequest.newBuilder()
-                    .url(newHttpUrl).build();
-            return chain.proceed(newRequest);});
+    @Override
+    protected Class<AuthService> clazz() {
+        return AuthService.class;
     }
 
-    private Retrofit buildRetrofit(){
-        OkHttpClient okHttpClient=new OkHttpClient.Builder()
-                .addInterceptor(buildInterceptor())
-                .build();
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        return new Retrofit.Builder()
-                .baseUrl("https://ws.audioscrobbler.com/2.0/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
-    }
-
-    public Observable<Response<Session>> auth(String username, String password){
+    public Observable<Response<Session>> auth(Context context, String username, String password){
         if(TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
             throw new IllegalArgumentException("username or password is empty");
         }
@@ -71,7 +39,7 @@ public class LastFmAuth {
         options.put("api_sig",signature);
         options.put("username",username);
         options.put("password",password);
-        return buildRetrofit().create(AuthService.class)
+        return createService(context)
                 .auth(options)
                 .map(response -> {
                     if(response!=null){
@@ -107,6 +75,7 @@ public class LastFmAuth {
             return null;
         }
     }
+
     public static LastFmAuth create(String apiKey, String apiSecret){
         return new LastFmAuth(apiKey,apiSecret);
     }
