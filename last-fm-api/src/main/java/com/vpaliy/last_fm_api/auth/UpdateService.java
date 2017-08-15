@@ -5,7 +5,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import com.vpaliy.last_fm_api.model.Status;
 import java.util.Map;
-import rx.Observable;
+import io.reactivex.Observable;
 
 interface UpdateService {
 

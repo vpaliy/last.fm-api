@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import rx.Observable;
+import io.reactivex.Observable;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class LastFmAuth extends ServiceProvider<AuthService> {

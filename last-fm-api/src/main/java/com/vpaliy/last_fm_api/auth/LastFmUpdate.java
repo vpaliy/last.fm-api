@@ -7,7 +7,8 @@ import com.vpaliy.last_fm_api.model.Status;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import rx.Observable;
+
+import io.reactivex.Observable;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class LastFmUpdate extends ServiceProvider<UpdateService> {
@@ -22,7 +23,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
         this.session=session;
     }
 
-    public Observable<Status> addTagsToAlbum(String artist,String album, String...tags){
+    public Observable<Status> addTagsToAlbum(String artist, String album, String...tags){
         Map<String,String> options=postOptions("album.addTags");
         options.put("artist","artist");
         options.put("album",album);
