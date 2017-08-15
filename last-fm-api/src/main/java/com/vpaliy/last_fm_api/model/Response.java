@@ -5,7 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class Response<T> {
 
     @SerializedName(value = "album", alternate = {"weeklyalbumchart","track",
-            "artists","artist","tags","toptags","topalbums","session"})
+            "artists","artist","tags","toptags","topalbums","session",
+            "similarartists","toptracks","topartists","tag","similartags",
+            "weeklychartlist","similartracks","artisttracks","friends","user",
+            "lovedtracks","taggings","recenttracks","weeklyartistchart",
+            "weeklychartlist","weeklytrackchart"})
     public T result;
 
     public String message;
