@@ -20,6 +20,10 @@ This wrapper is built with Retrofit2 and RxJava2. Basically, the wrapper is divi
 - **Update Service** - all write requests (POST).
 - **Last.fm Service** - all read requests (GET).
 
+Regardless which request you want to make, you need to have an API_KEY and a SECRET_KEY. You can obtain this [here](https://www.last.fm/api/account/create), it takes only 2 min to get it.
+
+**Note** 
+Due to the complex structure of JSON data returned by the web service, all requests are using a wrapper called [Response](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/model/Response.java) which is the response of a request. Just access the [Response.result](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/model/Response.java#L13) field of that object, and you will get your desired data. 
 
 ## Authentication ## 
 
@@ -94,5 +98,28 @@ LastFmUpdate.create(this,session)
 Use the `startChain()` method to create a chain, and the `stop()` method to stop it.
 
 All POST requests return a [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html) object, which represents a deferred computation without any value but only indication for completion or exception. It's either success or failure when you subscribe to it.
+
+## Last.fm Service ##
+
+You can access this service without any Session object. It just works.
+
+Use the [LastFm](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/LastFm.java) class to create the service:
+
+```java
+ //get the service
+ LastFmService service=LastFm.create(Config.API_KEY)
+            .createService(this);
+            
+//request an artist      
+service.fetchArtist("name of an artist")
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(response -> {
+            Artist artist=response.result;
+       });
+```
+
+
+
 
 
