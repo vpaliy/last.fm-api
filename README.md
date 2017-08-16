@@ -62,3 +62,37 @@ Session session=Session.convertFromString(pref.getString("key",null));
 
 ```
 
+## Update Service ## 
+
+Here you need to provide only a `Context` and a `Session` object. You can access the write calls with the [LastFmUpdate](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/auth/LastFmUpdate.java) class, here is an example:
+
+```java
+  LastFmUpdate.create(context,session)
+      .addTagsToAlbum("artist","album","tag1","tag2","tag3")
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(()->{},Throwable::printStackTrace);
+```
+
+Also, you can use chains, so you can make a few requests at the same time:
+
+```java
+LastFmUpdate.create(this,session)
+       .startChain()
+       .addTagsToAlbum("Imagine Dragons","Evolve","#favorite","#album")
+       .addTagsToArtist("Imagine Dragons","#favorite","#lovely")
+       .unloveTrack("Imagine Dragons","Demons")
+       .loveTrack("Imagine Dragons","Whatever It Takes")
+       .addTagsToTrack("Imagine Dragons","Rise Up","#summer2017")
+       .addTagsToTrack("Imagine Dragons","Walking the Wire","#summer2017")
+       .stop()
+       .subscribeOn(Schedulers.io())
+       .observeOn(AndroidSchedulers.mainThread())
+       .subscribe(()->{},Throwable::printStackTrace);
+```
+
+Use the `startChain()` method to create a chain, and the `stop()` method to stop it.
+
+All POST requests return a [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html) object, which represents a deferred computation without any value but only indication for completion or exception. It's either success or failure when you subscribe to it.
+
+
