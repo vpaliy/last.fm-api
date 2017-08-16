@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @SuppressWarnings({"unused","WeakerAccess"})
 public class LastFmAuth extends ServiceProvider<AuthService> {
@@ -28,7 +28,7 @@ public class LastFmAuth extends ServiceProvider<AuthService> {
         return AuthService.class;
     }
 
-    public Observable<Response<Session>> auth(Context context, String username, String password){
+    public Single<Response<Session>> auth(Context context, String username, String password){
         if(TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
             throw new IllegalArgumentException("username or password is empty");
         }
