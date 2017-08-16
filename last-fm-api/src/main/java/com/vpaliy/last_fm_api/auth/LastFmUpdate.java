@@ -3,12 +3,13 @@ package com.vpaliy.last_fm_api.auth;
 import android.content.Context;
 import com.vpaliy.last_fm_api.ServiceProvider;
 import com.vpaliy.last_fm_api.model.Session;
-import com.vpaliy.last_fm_api.model.Status;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-
-import io.reactivex.Observable;
+import io.reactivex.Completable;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class LastFmUpdate extends ServiceProvider<UpdateService> {
@@ -21,9 +22,10 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
     public LastFmUpdate(Context context, Session session){
         super(session.apiKey,BASE_URL);
         this.session=session;
+        this.context=context;
     }
 
-    public Observable<Status> addTagsToAlbum(String artist, String album, String...tags){
+    public Completable addTagsToAlbum(String artist, String album, String...tags){
         Map<String,String> options=postOptions("album.addTags");
         options.put("artist","artist");
         options.put("album",album);
@@ -32,7 +34,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .addTagsToAlbum(options);
     }
 
-    public Observable<Status> removeTagFromAlbum(String artist,String album, String tag){
+    public Completable  removeTagFromAlbum(String artist,String album, String tag){
         Map<String,String> options=postOptions("album.removeTag");
         options.put("artist",artist);
         options.put("album",album);
@@ -48,13 +50,14 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
         options.put("sk",session.key);
         return options;
     }
+
     @SuppressWarnings("all")
     private <T> String convert(T...strings){
         return Arrays.toString(strings)
                 .replaceAll("[\\[.\\].\\s+]", "");
     }
 
-    public Observable<Status> addTagsToArtist(String artist, String...tags){
+    public Completable  addTagsToArtist(String artist, String...tags){
         Map<String,String> options=postOptions("artist.addTags");
         options.put("artist",artist);
         options.put("tags",convert(tags));
@@ -62,7 +65,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .addTagsToArtist(options);
     }
 
-    public Observable<Status> removeTagFromArtist(String artist, String tag){
+    public Completable  removeTagFromArtist(String artist, String tag){
         Map<String,String> options=postOptions("artist.removeTag");
         options.put("artist",artist);
         options.put("tag",tag);
@@ -71,7 +74,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
     }
 
 
-    public Observable<Status> addTagsToTrack(String artist,String track, String...tags){
+    public Completable  addTagsToTrack(String artist,String track, String...tags){
         Map<String,String> options=postOptions("track.addTags");
         options.put("artist",artist);
         options.put("track",track);
@@ -80,7 +83,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .addTagsToTrack(options);
     }
 
-    public Observable<Status> removeTagFromTrack(String artist, String track, String tag){
+    public Completable  removeTagFromTrack(String artist, String track, String tag){
         Map<String,String> options=postOptions("track.removeTag");
         options.put("artist",artist);
         options.put("track",track);
@@ -89,7 +92,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .removeTagFromTrack(options);
     }
 
-    public Observable<Status> loveTrack(String artist, String track){
+    public Completable  loveTrack(String artist, String track){
         Map<String,String> options=postOptions("track.love");
         options.put("artist",artist);
         options.put("track",track);
@@ -97,7 +100,7 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .loveTrack(options);
     }
 
-    public Observable<Status> unloveTrack(String artist, String track){
+    public Completable  unloveTrack(String artist, String track){
         Map<String,String> options=postOptions("track.unlove");
         options.put("artist",artist);
         options.put("track",track);
@@ -105,7 +108,11 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
                 .unloveTrack(options);
     }
 
-    public Observable<Status> updateNowPlayingTrack(String artist, String track){
+    public Chain startChain(){
+        return new Chain();
+    }
+
+    public Completable  updateNowPlayingTrack(String artist, String track){
         return null;
     }
 
@@ -116,5 +123,66 @@ public class LastFmUpdate extends ServiceProvider<UpdateService> {
 
     public static LastFmUpdate create(Context context,Session session){
         return new LastFmUpdate(context,session);
+    }
+
+    public class Chain {
+        private List<Completable> completables;
+
+        private Chain(){
+            completables=new LinkedList<>();
+        }
+
+        public Chain addTagsToAlbum(String artist, String album, String...tags){
+            completables.add(LastFmUpdate.this.addTagsToAlbum(artist,album,tags));
+            return this;
+        }
+
+        public Chain removeTagFromAlbum(String artist,String album, String tag){
+            completables.add(LastFmUpdate.this.removeTagFromAlbum(artist,album,tag));
+            return this;
+        }
+
+        public Chain addTagsToArtist(String artist, String...tags) {
+            completables.add(LastFmUpdate.this.addTagsToArtist(artist,tags));
+            return this;
+        }
+
+        public Chain removeTagFromArtist(String artist, String tag){
+            completables.add(LastFmUpdate.this.removeTagFromArtist(artist,tag));
+            return this;
+        }
+
+        public Chain addTagsToTrack(String artist,String track, String...tags){
+            completables.add(LastFmUpdate.this.addTagsToTrack(artist,track,tags));
+            return this;
+        }
+
+        public Chain removeTagFromTrack(String artist, String track, String tag){
+            completables.add(LastFmUpdate.this.removeTagFromTrack(artist,track,tag));
+            return this;
+        }
+
+        public Chain loveTrack(String artist, String track){
+            completables.add(LastFmUpdate.this.loveTrack(artist,track));
+            return this;
+        }
+
+        public Chain unloveTrack(String artist, String track){
+            completables.add(LastFmUpdate.this.unloveTrack(artist,track));
+            return this;
+        }
+
+        public Completable stop(){
+            if(!completables.isEmpty()){
+                Iterator<Completable> it=completables.iterator();
+                Completable first=it.next();
+                while(it.hasNext()){
+                    Completable next=it.next();
+                    first=first.andThen(next);
+                }
+                return first;
+            }
+            return Completable.error(new IllegalStateException("You haven't make any operations"));
+        }
     }
 }

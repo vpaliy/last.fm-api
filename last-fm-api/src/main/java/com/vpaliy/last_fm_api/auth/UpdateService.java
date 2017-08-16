@@ -1,5 +1,6 @@
 package com.vpaliy.last_fm_api.auth;
 
+import io.reactivex.Completable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -13,42 +14,42 @@ interface UpdateService {
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> addTagsToAlbum(@FieldMap Map<String,String> options);
+    Completable addTagsToAlbum(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> removeTagFromAlbum(@FieldMap Map<String,String> options);
+    Completable removeTagFromAlbum(@FieldMap Map<String,String> options);
 
       /* Artist */
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> addTagsToArtist(@FieldMap Map<String,String> options);
+    Completable addTagsToArtist(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> removeTagFromArtist(@FieldMap Map<String,String> options);
+    Completable removeTagFromArtist(@FieldMap Map<String,String> options);
 
       /* Track */
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> addTagsToTrack(@FieldMap Map<String,String> options);
+    Completable addTagsToTrack(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> removeTagFromTrack(@FieldMap Map<String,String> options);
+    Completable removeTagFromTrack(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> loveTrack(@FieldMap Map<String,String> options);
+    Completable loveTrack(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> unloveTrack(@FieldMap Map<String,String> options);
+    Completable unloveTrack(@FieldMap Map<String,String> options);
 
     @POST("./")
     @FormUrlEncoded
-    Observable<Status> updateNowPlayingTrack(@FieldMap Map<String,String> options);
+    Completable updateNowPlayingTrack(@FieldMap Map<String,String> options);
 
 }
