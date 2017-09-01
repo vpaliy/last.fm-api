@@ -1,8 +1,9 @@
 package com.vpaliy.last_fm_api.model;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings({"unused","WeakerAccess"})
 public class Track {
     public String id;
     public String name;
@@ -15,8 +16,10 @@ public class Track {
     public Album album;
     public Wrapper<Tag> toptags;
     public Wiki wiki;
-    public Streamable streamable;
     public List<Image> image;
+
+    public boolean isStreamable=false;
+
 
     @SuppressWarnings("WeakerAccess")
     public class Wrapper<T> {
