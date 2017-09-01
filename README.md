@@ -1,4 +1,6 @@
 # Last.fm-API
+[![](https://jitpack.io/v/vpaliyX/Last.fm-API.svg)](https://jitpack.io/#vpaliyX/Last.fm-API)
+
 
 This project is a wrapper for the [Last.fm API](https://www.last.fm/api/). 
 The Last.fm API allows anyone to build their own programs using Last.fm data. What can I do with this API? 
@@ -14,6 +16,32 @@ Here's the list of the most useful things you can do with this API:
 - **retrieve** data from a user (favorite items,tracks, albums, info, recent tracks, charts)
 - **search** for an item.
 - **log in/log out**
+
+## How do I use this wrapper? ##
+
+### Step 1 ###  
+
+Add this to your root `build.gradle` file:
+
+``` gradle
+allprojects {
+  repositories {
+     maven { url 'https://jitpack.io' }
+  }
+}
+```
+### Step 2 ###
+
+Add the dependency
+
+``` gradle
+dependencies {
+     compile 'com.github.vpaliyX:Last.fm-API:v1.0'
+}
+
+```
+
+## Nuts and Bolts ##
 
 This wrapper is built with Retrofit2 and RxJava2. Basically, the wrapper is divided into 3 main abstractions:
 - **Authentication** - authentication of a user, provides a session key.
