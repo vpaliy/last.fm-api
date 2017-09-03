@@ -18,9 +18,6 @@ public class Track {
     public Wiki wiki;
     public List<Image> image;
 
-    public boolean isStreamable=false;
-
-
     @SuppressWarnings("WeakerAccess")
     public class Wrapper<T> {
         @SerializedName(value = "tag",alternate = "track")
