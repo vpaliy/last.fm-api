@@ -36,7 +36,7 @@ Add the dependency
 
 ``` gradle
 dependencies {
-     compile 'com.github.vpaliyX:Last.fm-API:v1.0'
+     compile 'com.github.vpaliyX:Last.fm-API:v1.2.0'
 }
 
 ```
