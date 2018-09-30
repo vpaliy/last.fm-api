@@ -3,7 +3,7 @@
 
 
 This project is a wrapper for the [Last.fm API](https://www.last.fm/api/). 
-The Last.fm API allows anyone to build their own programs using Last.fm data. What can I do with this API? 
+The last.fm API allows anyone to build their applications using the last.fm data. 
 
 Here's the list of the most useful things you can do with this API:
 
@@ -48,7 +48,7 @@ This wrapper is built with Retrofit2 and RxJava2. Basically, the wrapper is divi
 - **Update Service** - all write requests (POST).
 - **Last.fm Service** - all read requests (GET).
 
-Regardless which request you want to make, you need to have an API_KEY and a SECRET_KEY. You can obtain this [here](https://www.last.fm/api/account/create), it takes only 2 min to get it.
+Regardless of which request you want to make, you will need to have an API_KEY and a SECRET_KEY. You can obtain this [here](https://www.last.fm/api/account/create), it takes only 2 min to get it.
 
 **Note** 
 Due to the complex structure of JSON data returned by the web service, all requests are using a wrapper called [Response](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/model/Response.java) which is the response of a request. Just access the [Response.result](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/model/Response.java#L13) field of that object, and you will get your desired data. 
@@ -57,15 +57,15 @@ Due to the complex structure of JSON data returned by the web service, all reque
 
 It's super simple. 
 
-First of all, **Last.fm** provides you with a **session key** which *never expires*.
-So you don't have to refresh this at all. Once you have obtained you session key, you can do any of the POST requests.
+First of all, **last.fm** provides you with a **session key** which *never expires*.
+This way you don't have to refresh this at all. Once you have obtained you session key, you can do any of the POST requests.
 
-Secondly, if you don't want to do POST requests then you don't need a session key. You can skip this step because you don't need to have a session key for GET requests.
+Secondly, if you don't want to do POST requests, then you don't need a session key. You can skip this step since you won't need to have a session key for GET requests.
 
 The [LastFmAuth](https://github.com/vpaliyX/Last.fm-API/blob/master/last-fm-api/src/main/java/com/vpaliy/last_fm_api/auth/LastFmAuth.java) class is responsible for the authorization, it encapsulates some additional steps, you just need to provide a **username** and **password**. Once you've done that, 
 you will receive a session key.
 
-Here's how it should be done:
+Here's how it should work:
 
 ```java
 LastFmAuth.create(Config.API_KEY,Config.API_SECRET)
