@@ -1,4 +1,4 @@
-# Last.fm-API
+# last.fm  API
 [![](https://jitpack.io/v/vpaliyX/Last.fm-API.svg)](https://jitpack.io/#vpaliyX/Last.fm-API)
 
 
